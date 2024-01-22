@@ -11,7 +11,7 @@ from typing import Union, Tuple, Optional
 import github.GithubException
 import mock
 import requests.exceptions
-from flask import Flask, Response
+from flask import Flask, Response, escape
 
 from publish_test_results import get_github
 
@@ -75,7 +75,7 @@ class TestGitHub(unittest.TestCase):
         @app.route('/api/repos/<owner>/<repo>/pulls/<int:number>')
         def pull(owner: str, repo: str, number: int):
             if pulls_response is None:
-                return {'id': 12345, 'number': number, 'issue_url': '/'.join([self.base_url, 'repos', owner, repo, 'issues', str(number)])}
+                return {'id': 12345, 'number': escape(number), 'issue_url': '/'.join([self.base_url, 'repos', escape(owner), escape(repo), 'issues', str(escape(number))])}
             return pulls_response
 
         @app.route('/api/repos/<owner>/<repo>/issues/<int:number>/comments', methods=['POST'])
