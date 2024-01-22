@@ -65,7 +65,7 @@ class TestGitHub(unittest.TestCase):
         @app.route('/api/repos/<owner>/<repo>')
         def repo(owner: str, repo: str):
             if repo_response is None:
-                return {'id': 1234, 'name': repo, 'full_name': '/'.join([owner, repo]), 'url': '/'.join([self.base_url, 'repos', owner, repo])}
+                return {'id': 1234, 'name': escape(repo), 'full_name': '/'.join([escape(owner), escape(repo)]), 'url': '/'.join([self.base_url, 'repos', escape(owner), escape(repo)])}
             return repo_response
 
         @app.route('/api/repos/<owner>/<repo>/check-runs', methods=['POST'])
